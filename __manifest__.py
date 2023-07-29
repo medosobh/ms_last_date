@@ -1,7 +1,7 @@
 {
     'name': 'ms_last_date',
     'version': '15.0.0.2',
-    'summary': 'Add decoration to customer',
+    'summary': 'Add decoration to customer based on last trx date',
     'description': 'Add decoration to customer based on last transaction date and credit amount',
     'category': 'Invoicing',
     'author': "Mohamed Sobh",
