@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ms_last_date_tree_inherit" model="ir.ui.view">
+            <field name="name">ms_last_date_tree_inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-muted">is_late == 'low balance'</attribute>
+                    <attribute name="decoration-warning">is_late == 'than 60 days'</attribute>
+                    <attribute name="decoration-danger">is_late == 'than 45 days'</attribute>
+                    <attribute name="decoration-info">is_late == 'than 30 days'</attribute>
+                    <attribute name="default_order">last_trx_date asc</attribute>
+                </xpath>
+                <xpath expr="//field[@name='display_name']" position="after">
+                    <field name="last_trx_date" optional="show"/>
+                    <field name="last_trx_date_auto" optional="hide"/>
+                    <field name="is_late" optional="show"/>
+                    <field name="credit" optional="show" sum="Total Customer"/>
+                    <field name="debit" optional="show" sum="Total Vendor"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="ms_last_date_search_inherit" model="ir.ui.view">
+            <field name="name">ms_last_date_search_inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <!-- This field will show up on the default filters
+               &lt; is the XML encoding for < and &gt; is the XML encoding for > -->
+                    <filter string="Late &gt; 60days" name="late_60" domain="[('is_late', '=', 'than 60 days')]"/>
+                    <filter string="Late &gt; 45days" name="late_45" domain="[('is_late', '=', 'than 45 days')]"/>
+                    <filter string="Late &gt; 30days" name="late_30" domain="[('is_late', '=', 'than 30 days')]"/>
+                    <group expand="0" string="Group by">
+                        <filter string="Late Status" name="group_by_is_late" context="{'group_by':'is_late'}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
